@@ -38,6 +38,8 @@ The analysis describes patterns in the data. It does not establish the causes of
 | Time period | Orders from 2011-01-01 to 2014-12-31 (ship dates extend to 2015-01-07) |
 | Domain | Retail and sales analytics |
 
+**Dataset source:** [Kaggle – Global Superstore Dataset](https://www.kaggle.com/code/abdelazizelserty/global-superstore-dataset)
+
 Key fields include `Order.Date`, `Ship.Date`, `Category`, `Sub.Category`, `Product.Name`, `Sales`, `Quantity`, `Discount`, `Profit`, `Shipping.Cost`, `Segment`, `Market`, `Region`, `Country`, `State`, `City`, and `Ship.Mode`.
 
 Each row represents one order line, and an `Order.ID` may appear on more than one row.
