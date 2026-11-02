@@ -71,6 +71,7 @@ Superstore-Sales-Analytics/
 │   └── superstore.csv
 │
 ├── Global_sales_analytics.ipynb
+├── Global_sales_analytics_phase_2.ipynb
 │
 ├── Superstore_Sales_Analytics_SRS2.docx
 │   
@@ -80,6 +81,7 @@ Superstore-Sales-Analytics/
 
 - `data/superstore.csv`: original dataset.
 - `Global_sales_analytics.ipynb`: data loading, inspection, and quality checks.
+- `Global_sales_analytics_phase_2`: data cleaning, column insertion 
 - `documentation/Project_Proposal.md`: project title, objectives, dataset details, planned analysis, and scope.
 - `documentation/Superstore_Sales_Analytics_SRS2.docx`: software requirements specification.
 - `README.md`: project overview and instructions.
@@ -102,4 +104,21 @@ Superstore-Sales-Analytics/
 
 ## Project Status
 
-The dataset has been loaded and inspected, and the project scope, objectives, and planned analysis are documented. Exploratory analysis, visualizations, and findings are still to be completed.
+
+### Phase 1: Select the raw data — complete
+
+The selected file is `superstore_data.csv`. It contains **51,290 order lines and 27 columns**. The order dates run from **1 January 2011 to 31 December 2014**. Each row represents one order line, identified by `Row.ID`; an `Order.ID` can appear on several rows.
+
+The dataset reference provided for this project is [Global Superstore Dataset on Kaggle](https://www.kaggle.com/code/abdelazizelserty/global-superstore-dataset). Confirm the original source and license before publishing or sharing the data.
+
+### Phase 2: Clean and prepare the data — complete in the notebook
+
+The Phase 2 notebook records these steps:
+
+- Checked for missing values and exact duplicate rows. The initial checks found none; `Row.ID` is unique.
+- Removed the redundant columns `记录数`, `Market2`, and `weeknum`, then standardized column names.
+- Converted `order_date` and `ship_date` to dates and checked that shipping did not occur before ordering.
+- Added `profit_status`, `ship_days`, `unit_price` (sales per unit), and `profit_margin` (`profit / sales`).
+- Excluded the one row with zero sales, identified as `Row.ID 35398` (original DataFrame index `46158`). It also has recorded profit of `-1.11`; the notebook should keep this exclusion documented.
+
+Following those steps, the cleaned table should contain **51,289 rows and 28 columns**. The separately exported cleaned file should be checked against these counts before submission.
