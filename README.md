@@ -110,31 +110,82 @@ Superstore-Sales-Analytics/
 
 ### Phase 1: Select the raw data — complete
 
-The selected file is `superstore_data.csv`. It contains **51,290 order lines and 27 columns**. The order dates run from **1 January 2011 to 31 December 2014**. Each row represents one order line, identified by `Row.ID`; an `Order.ID` can appear on several rows.
+**Objective:** Confirm the dataset is the right one and understand its structure before any cleaning.
 
-The dataset reference provided for this project is [Global Superstore Dataset on Kaggle](https://www.kaggle.com/code/abdelazizelserty/global-superstore-dataset). Confirm the original source and license before publishing or sharing the data.
+**What was done:**
+- Selected the file `superstore_data.csv`.
+- Loaded it into a pandas DataFrame and inspected its shape, column names, data types, and sample records.
+- Confirmed the scope of the data: **51,290 order lines and 27 columns**.
+- Checked the time coverage: order dates run from **1 January 2011 to 31 December 2014**. Ship dates extend to **7 January 2015**, because some orders placed late in 2014 shipped in early 2015.
+
+**Key facts established:**
+- Each row is one order line, identified by `Row.ID`. An `Order.ID` can appear on several rows, so counts of "orders" are counts of order lines unless stated otherwise.
+- The data includes sales, quantity, discount, profit, and shipping cost, plus location fields (market, region, country, state, city), product fields (category, sub-category, product name), segment, and ship mode.
+- Some column names are in Chinese (`记录数`), and `Market2` duplicates part of the `Market` information. Both are handled in Phase 2.
+
+**Source:** [Global Superstore Dataset on Kaggle](https://www.kaggle.com/code/abdelazizelserty/global-superstore-dataset). Confirm the original source and license before publishing or sharing the data.
 
 ### Phase 2: Clean and prepare the data — complete in the notebook
 
-The Phase 2 notebook records these steps:
+**Objective:** Make the data reliable and usable for analysis without changing any recorded values, other than removing one zero-sales row.
 
-- Checked for missing values and exact duplicate rows. The initial checks found none; `Row.ID` is unique.
-- Removed the redundant columns `记录数`, `Market2`, and `weeknum`, then standardized column names.
-- Converted `order_date` and `ship_date` to dates and checked that shipping did not occur before ordering.
-- Added `profit_status`, `ship_days`, `unit_price` (sales per unit), and `profit_margin` (`profit / sales`).
-- Excluded the one row with zero sales, identified as `Row.ID 35398` (original DataFrame index `46158`). It also has recorded profit of `-1.11`; the notebook should keep this exclusion documented.
+**Quality checks:**
+- Checked for missing values in every column. None were found.
+- Checked for exact duplicate rows. None were found.
+- Confirmed `Row.ID` is unique across all 51,290 rows.
 
-Following those steps, the cleaned table should contain **51,289 rows and 28 columns**. The separately exported cleaned file should be checked against these counts before submission.
+**Cleaning steps:**
+- Removed three redundant columns: `记录数`, `Market2` (which merges US and Canada into "North America"), and `weeknum`.
+- Standardized column names to lowercase with underscores, so `Order.Date` became `order_date`.
+- Converted `order_date` and `ship_date` to date type, normalized to midnight.
+- Converted `sales` and `profit` to numeric and rounded to two decimal places.
+- Checked that no shipment occurred before its order date.
+- Excluded the one row with zero sales, identified as `Row.ID 35398` (original DataFrame index `46158`). It has recorded profit of −1.11 and an 80% discount, and it has no sales base for a margin calculation. This exclusion is documented in the notebook.
 
-### Phase 3: Exploratory analysis and findings — complete in the notebook
+**Features added:**
+- `profit_status`: labels each order line as a loss, profit, or break-even line. About 24.5% of lines are losses.
+- `ship_days`: days between order and shipment.
+- `unit_price`: sales per unit.
+- `quarter`: quarter of the order date, used for time analysis.
+- `profit_margin`: profit ÷ sales at row level. This is used only for row-level checks. Totals and group margins are calculated as sum of profit ÷ sum of sales, so that large orders are not outweighed by small ones.
 
-The Phase 3 analysis records these steps:
+**Result:** The cleaned table should contain **51,289 rows and 28 columns**. The separately exported cleaned file should be checked against these counts before submission.
 
-- Profiled profit by country, city, segment, and market-region, and identified the five countries with the largest total losses.
-- Built a market-region scorecard. Southeast Asia has the lowest margin of the large regions (2.0% on about 884k in sales).
-- Broke Southeast Asia down by country and sub-category. Four countries (Philippines, Thailand, Myanmar, Vietnam) lose about 27k in total. Tables, Accessories, and Supplies are the largest loss-making sub-categories in the region.
-- Measured margin and loss share by discount band. Margin turns negative above about 20–30% discount, and 92.2% of total loss value comes from lines with discounts above 20%.
-- Compared Southeast Asia with the rest of the company at each discount level. Margins are similar at the same discount level. Southeast Asia gives discounts above 20% on 57% of its order lines, compared with 20% elsewhere.
-- Tested the discount effect on Chairs. Chairs earn 17.6% at 0–20% discount and lose money above 20% (−10.3% at 21–40%, −81.6% above 40%).
+**Open item:** The column selection in the notebook currently omits `ship_mode`. It needs to be restored before the segment and ship mode analysis in Phase 3 can run.
 
-Open items before final submission: the year-by-year trend, the segment and ship mode margins, correction of the region-name grouping in the quarterly and regional charts, city analysis grouped by city and country, and the loss share calculated for Southeast Asia alone.
+### Phase 3: Exploratory analysis and findings — complete in the notebook, with open items
+
+**Objective:** Answer the business question: which parts of the business make money, which lose it, and whether discounting is a major cause of losses.
+
+**Exploration by country and city:**
+- Profiled sales, profit, and margin for the top five countries by sales. The United States leads on both sales (about 2.30M) and profit (about 286k), but its margin is about average.
+- Identified the five countries with the largest total losses: Turkey (about −98k), Nigeria (about −81k), Netherlands (about −41k), Honduras (about −29k), and Pakistan (about −22k).
+- Profiled the top five cities by sales. New York City leads. Manila is loss-making (about −11k).
+
+**Exploration by segment and market:**
+- Counted order lines by segment. Consumer is the largest segment.
+- Built a market-region scorecard with sales, profit, orders, margin, and average discount. Canada has the highest margin (about 26.6%) on small volume. APAC North Asia is at about 19.5%. Southeast Asia has the lowest margin of the large regions, at 2.0% on about 884k in sales.
+
+**Southeast Asia deep dive:**
+- Broke the region down by country. Four countries lose money: Philippines (−8.8%), Thailand (−9.5%), Myanmar (−6.2%), and Vietnam (−2.8%). Together they lose about 27k.
+- Indonesia has the highest sales in the region (about 405k) but only a 3.9% margin.
+- Broke the region down by sub-category. Tables (−18.6k), Accessories (−8.6k), and Supplies (−4.0k) are the largest losses. Phones (+13.5k) and Copiers (+11.4k) are the largest gains.
+
+**Discount analysis (core finding):**
+- Grouped order lines into discount bands and measured margin and loss share in each. Margin turns negative above about 20–30% discount.
+- Found that **92.2% of total loss value** comes from order lines with discounts above 20%. This figure is company-wide.
+- Compared Southeast Asia with the rest of the company at each discount band. At the same discount level, margins are similar. At 0% discount, both earn about 25%. Above 20%, both lose money.
+- Found that Southeast Asia's lower margin comes from giving deep discounts more often. Its share of lines with discounts above 20% is 57%, compared with 20% for the rest of the company. Its share above 40% is 34%, compared with 12%.
+
+**Product check:**
+- Tested the discount effect on Chairs, a profitable product overall. Chairs earn 17.6% at 0–20% discount, −10.3% at 21–40%, and −81.6% above 40%. The discount effect is not limited to Tables and Supplies.
+
+**Open items before final submission:**
+- Re-run the quarterly and regional charts using market and region together, because region names repeat across markets.
+- Restore `ship_mode` and add the margin table by segment and ship mode.
+- Add the year-by-year trend of sales, profit, and margin, and identify the market with the largest year-on-year change.
+- Group city analysis by city and country, because some city names appear in more than one country.
+- Calculate the loss share for Southeast Asia alone. The 92.2% figure is company-wide.
+- Run the discount-band check for Tables and Supplies.
+- Relabel the discount-band table: the margin and loss-share figures in the rest-of-company table exclude Southeast Asia (48,160 lines). Either label them as such or recalculate them on all 51,289 lines.
+- Correct the chart title in the top-countries-by-sales cell, and the "customers" wording in the segment chart title, which counts order lines.arterly and regional charts, city analysis grouped by city and country, and the loss share calculated for Southeast Asia alone.
