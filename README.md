@@ -1,29 +1,32 @@
-# Superstore Sales Profitability Analysis
+# Superstore Sales Profitability Analysis: Project Proposal
 
-Exploring four years of superstore order data to understand which categories, markets, and discount levels drive profit and loss.
+
+**Domain:** Retail and Sales Analytics (Multi-Market, Multi-Category)
+
 
 ## Project Overview
 
-Sales volume alone does not show whether a retail business is healthy. This project examines order-line records from a superstore business to see how much profit each part of the business generates and where losses come from.
+This project examines four years of transaction records (orders placed from 1 January 2011 to 31 December 2014) from a superstore business. Each record describes one order line: what was sold, to whom, where, how it was shipped, and what it earned or lost. The dataset contains 51,290 records and 27 columns.
 
-The dataset covers orders placed from 1 January 2011 to 31 December 2014 and contains 51,290 rows and 27 columns. It includes sales, profit, discount, shipping, product, customer, and location fields.
+The business records show sales volume, but volume alone does not show whether the business is healthy. This project looks at how much profit each part of the business generates and where losses come from.
 
 ## Business Problem
 
-Sales and pricing managers need to know which product categories, markets, and customer segments make money and which lose it. Discounts can increase sales but may also reduce margins.
-
-This project addresses the following question:
-
-Which categories, markets, segments, and discount levels are associated with profit and loss in superstore orders from 2011 to 2014?
-
-The analysis describes patterns in the data. It does not establish the causes of losses on its own.
+Sales managers need to know which sub-categories, markets, and customer segments make money and which lose it. The dataset shows high sales in some markets, but sales alone do not show whether the business is healthy. This analysis asks whether discounting is a major cause of losses, and where in the business the losses are concentrated, so that discount and pricing decisions can be based on evidence.
 
 ## Project Objectives
 
-1. Calculate total sales, total profit, and profit margin for each category, sub-category, and market.
-2. Measure the share of loss-making order lines at each discount level.
-3. Compare profit margin across segments and ship modes.
-4. Track sales, profit, and margin by year from 2011 to 2014.
+1. Calculate total sales, total profit, and profit margin (sum of profit ÷ sum of sales) for each Sub-Category and Market, 2011–2014.
+2. Measure the share of order lines with negative profit at each discount level, and identify the lowest discount level at which more than half of order lines are loss-making.
+3. Compare profit margin across the three Segments (Consumer, Corporate, Home Office) and the four Ship Modes, using ship_mode retained in the cleaned data.
+4.Track sales, profit, and margin year by year from 2011 to 2014, and identify the market with the largest year-on-year change in margin.
+
+## Business Value & Use Case
+
+- **Sales and pricing managers** can use the discount-level results to set discount limits or approval rules.
+- **Category managers** can decide which sub-categories to promote, reprice, or review.
+- **Regional leads** can compare market performance on profit, not only on sales.
+- **Finance teams** can use the margin figures to prioritise cost reviews in loss-making areas.
 
 ## Dataset Information
 
@@ -122,3 +125,16 @@ The Phase 2 notebook records these steps:
 - Excluded the one row with zero sales, identified as `Row.ID 35398` (original DataFrame index `46158`). It also has recorded profit of `-1.11`; the notebook should keep this exclusion documented.
 
 Following those steps, the cleaned table should contain **51,289 rows and 28 columns**. The separately exported cleaned file should be checked against these counts before submission.
+
+### Phase 3: Exploratory analysis and findings — complete in the notebook
+
+The Phase 3 analysis records these steps:
+
+- Profiled profit by country, city, segment, and market-region, and identified the five countries with the largest total losses.
+- Built a market-region scorecard. Southeast Asia has the lowest margin of the large regions (2.0% on about 884k in sales).
+- Broke Southeast Asia down by country and sub-category. Four countries (Philippines, Thailand, Myanmar, Vietnam) lose about 27k in total. Tables, Accessories, and Supplies are the largest loss-making sub-categories in the region.
+- Measured margin and loss share by discount band. Margin turns negative above about 20–30% discount, and 92.2% of total loss value comes from lines with discounts above 20%.
+- Compared Southeast Asia with the rest of the company at each discount level. Margins are similar at the same discount level. Southeast Asia gives discounts above 20% on 57% of its order lines, compared with 20% elsewhere.
+- Tested the discount effect on Chairs. Chairs earn 17.6% at 0–20% discount and lose money above 20% (−10.3% at 21–40%, −81.6% above 40%).
+
+Open items before final submission: the year-by-year trend, the segment and ship mode margins, correction of the region-name grouping in the quarterly and regional charts, city analysis grouped by city and country, and the loss share calculated for Southeast Asia alone.
