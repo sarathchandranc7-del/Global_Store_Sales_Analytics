@@ -179,13 +179,3 @@ Superstore-Sales-Analytics/
 
 **Product check:**
 - Tested the discount effect on Chairs, a profitable product overall. Chairs earn 17.6% at 0–20% discount, −10.3% at 21–40%, and −81.6% above 40%. The discount effect is not limited to Tables and Supplies.
-
-**Open items before final submission:**
-- Re-run the quarterly and regional charts using market and region together, because region names repeat across markets.
-- Restore `ship_mode` and add the margin table by segment and ship mode.
-- Add the year-by-year trend of sales, profit, and margin, and identify the market with the largest year-on-year change.
-- Group city analysis by city and country, because some city names appear in more than one country.
-- Calculate the loss share for Southeast Asia alone. The 92.2% figure is company-wide.
-- Run the discount-band check for Tables and Supplies.
-- Relabel the discount-band table: the margin and loss-share figures in the rest-of-company table exclude Southeast Asia (48,160 lines). Either label them as such or recalculate them on all 51,289 lines.
-- Correct the chart title in the top-countries-by-sales cell, and the "customers" wording in the segment chart title, which counts order lines.arterly and regional charts, city analysis grouped by city and country, and the loss share calculated for Southeast Asia alone.
