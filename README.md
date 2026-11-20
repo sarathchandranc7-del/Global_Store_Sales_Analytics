@@ -129,14 +129,14 @@ Superstore-Sales-Analytics/
 
 ## Project Status
 
-### Phase 1: Select the raw data (complete)
+### Phase 1: Select the raw data
 
 - Loaded `superstore_data.csv` and inspected its shape, columns, data types, and sample records.
 - Confirmed 51,290 order lines and 27 columns.
 - Order dates run from 1 January 2011 to 31 December 2014. Ship dates extend to 7 January 2015.
 - Each row is one order line, identified by Row.ID.
 
-### Phase 2: Clean and prepare the data (complete)
+### Phase 2: Clean and prepare the data
 
 **Quality checks:**
 - No missing values in any column.
@@ -162,7 +162,7 @@ Superstore-Sales-Analytics/
 
 **Result:** 51,289 rows and 30 columns after cleaning.
 
-### Phase 3: Exploratory analysis and findings (complete for Objectives 1–3)
+### Phase 3: Exploratory analysis and findings 
 
 **Countries and cities**
 - The United States leads on sales (about 2.30M) and profit (about 286k).
@@ -179,14 +179,14 @@ Superstore-Sales-Analytics/
 - Indonesia has the largest sales in the region (404,887) but a margin of 3.86%.
 - By sub-category, Tables lose the most (−18,618), followed by Accessories (−8,642) and Supplies (−4,034). Phones (+13,452) and Copiers (+11,356) are the largest gains.
 
-**Sub-category by market (Objective 1)**
+**Sub-category by market**
 - Tables have negative margins in four markets: EU (−19.93%), APAC (−8.94%), US (−8.56%), and LATAM (−8.49%). The EU result is the largest.
 - The Tables problem is therefore not limited to Southeast Asia.
 
-**Segment and ship mode (Objective 3)**
+**Segment and ship mode**
 - [Insert margin values for each segment and ship mode from the chart output.]
 
-**Discounts and losses (Objective 2)**
+**Discounts and losses**
 - The share of order lines with a loss rises with discount. The first discount level where more than half of lines lose money is about 20%, based on the 20.2% level with 41 order lines.
 - [Confirm this threshold after rounding discounts, and insert the printed value.]
 - Order lines with discounts above 20% account for 92.0% of total loss value. This is a company-wide figure.
